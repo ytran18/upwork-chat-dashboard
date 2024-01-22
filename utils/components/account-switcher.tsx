@@ -28,16 +28,19 @@ export function AccountSwitcher({
                 className={cn(
                     "flex items-center gap-2 [&>span]:line-clamp-1 [&>span]:flex [&>span]:w-full [&>span]:items-center [&>span]:gap-1 [&>span]:truncate [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0",
                     isCollapsed &&
-                    "flex h-9 shrink-0 items-center p-0 [&>span]:w-auto [&>svg]:hidden"
+                    "flex h-9 w-9 shrink-0 items-center justify-center p-0 [&>span]:w-auto [&>svg]:hidden"
                 )}
                 aria-label="Select account"
             >
-                <div className='flex items-center'>
+                <SelectValue placeholder="Select an account" className='flex'>
                     {accounts.find((account) => account.email === selectedAccount)?.icon}
-                    <span style={{marginLeft: '16px'}} className={cn(isCollapsed && "hidden")}>
-                        { accounts.find((account) => account.email === selectedAccount)?.label }
+                    <span className={cn("ml-2", isCollapsed && "hidden")}>
+                        {
+                            accounts.find((account) => account.email === selectedAccount)
+                            ?.label
+                        }
                     </span>
-                </div>
+                </SelectValue>
             </SelectTrigger>
             <SelectContent>
                 {accounts.map((account) => (

@@ -37,10 +37,12 @@ export default function Home() {
                     collapsible={true}
                     minSize={15}
                     maxSize={20}
-                    // onCollapse={(collapsed) => {
-                    //     setIsCollapsed(collapsed)
-                    //     document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(collapsed)}`
-                    // }}
+                    onCollapse={() => {
+                        setIsCollapsed(true)
+                    }}
+                    onExpand={() => {
+                        setIsCollapsed(false)
+                    }}
                     className={cn(isCollapsed && "min-w-[50px] transition-all duration-300 ease-in-out")}
                 >
                     <div className={cn("flex h-[52px] w-full items-center justify-center", isCollapsed ? 'h-[52px]': 'px-2')}>
