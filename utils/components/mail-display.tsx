@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import addDays from "date-fns/addDays";
 import addHours from "date-fns/addHours";
@@ -24,6 +24,11 @@ interface MailDisplayProps {
 
 export function MailDisplay({ mail }: MailDisplayProps) {
 
+    const [state, setState] = useState({
+        isShowProfile: true,
+        width: 0,
+    });
+
     const today = new Date();
 
     useEffect(() => {
@@ -34,10 +39,26 @@ export function MailDisplay({ mail }: MailDisplayProps) {
         };
     }, [mail]);
 
+    useEffect(() => {
+        setState(prev => ({...prev, width: window.innerWidth}));
+    },[])
+
+    useEffect(() => {
+        const handleResize = () => {
+            setState(prev => ({...prev, width: window.innerWidth}));
+        };
+    
+        window.addEventListener('resize', handleResize);
+    
+        return () => {
+          window.removeEventListener('resize', handleResize);
+        };
+    }, []); 
+
     return (
         <div className="flex h-full flex-col">
             <div className="flex w-full">
-                <div className="flex flex-col border-r border-rgb(226,232,241) w-[70%]">
+                <div className={`flex flex-col ${(state.isShowProfile && state.width > 1024) ? 'w-[65%] border-r border-rgb(226,232,241)' : 'w-full'}`}>
                     <div className="flex items-center p-[6px]">
                         <div className="flex items-center gap-2">
                             <Tooltip>
@@ -155,21 +176,11 @@ export function MailDisplay({ mail }: MailDisplayProps) {
                                 <TooltipContent>Forward</TooltipContent>
                             </Tooltip>
                         </div>
-                        <Separator orientation="vertical" className="mx-2 h-6" />
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon" disabled={!mail}>
-                                    <MoreVertical className="h-4 w-4" />
-                                    <span className="sr-only">More</span>
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuItem>Mark as unread</DropdownMenuItem>
-                                <DropdownMenuItem>Star thread</DropdownMenuItem>
-                                <DropdownMenuItem>Add label</DropdownMenuItem>
-                                <DropdownMenuItem>Mute thread</DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                        <Separator orientation="vertical" className="mx-2 h-6 hidden lg:block" />
+                        <Button className="hidden lg:flex" onClick={() => setState(prev => ({...prev, isShowProfile: !prev.isShowProfile}))} variant="ghost" size="icon" disabled={!mail}>
+                            <MoreVertical className="h-4 w-4" />
+                            <span className="sr-only">More</span>
+                        </Button>
                     </div>
                     <Separator />
                     {mail ? (
@@ -229,49 +240,51 @@ export function MailDisplay({ mail }: MailDisplayProps) {
                         </div>
                     )}
                 </div>
-                <div className="w-[30%]">
-                    {mail && (
-                        <div className="flex flex-col">
-                            <div className="h-[53px] flex items-center px-4 font-semibold tracking-wide border-b border-[rgb(226,232,241)]">Profile</div>
-                            <div className="flex flex-col items-center gap-2 p-2 border-b border-[rgb(226,232,241)]">
-                                {!mail.avt && (
-                                    <Avatar className="w-[80%] h-[193px] text-2xl">
-                                        <AvatarFallback>
-                                            {mail.name.split(" ").map((chunk) => chunk[0]).join("")}
-                                        </AvatarFallback>
-                                    </Avatar>
-                                )}
-                                {mail.avt && (
-                                    <Avatar className="w-[80%] h-[193px] text-2xl">
-                                        <AvatarImage src={mail.avt}/>
-                                    </Avatar>
-                                )}
-                                <div className="text-xl font-bold tracking-wider">{mail.name}</div>
-                            </div>
-                            <div className="p-2">
-                                <div className="text-sm font-semibold mb-5">Contact information</div>
-                                {mail.email && (
-                                    <div className="flex items-center text-xs gap-3 mb-3">
-                                        <MailIcon className="w-[18px]"/>
-                                        <div className="flex flex-col">
-                                            <div className="font-medium">Email Address</div>
-                                            <div className="text-blue-400">{mail.email}</div>
+                {state.isShowProfile && (
+                    <div className="w-[35%] hidden lg:block">
+                        {mail && (
+                            <div className="flex flex-col w-full">
+                                <div className="h-[53px] flex items-center px-4 font-semibold tracking-wide border-b border-[rgb(226,232,241)]">Profile</div>
+                                <div className="flex flex-col items-center gap-2 p-2 border-b border-[rgb(226,232,241)]">
+                                    {!mail.avt && (
+                                        <Avatar className="w-[180px] h-[180px] text-2xl">
+                                            <AvatarFallback>
+                                                {mail.name.split(" ").map((chunk) => chunk[0]).join("")}
+                                            </AvatarFallback>
+                                        </Avatar>
+                                    )}
+                                    {mail.avt && (
+                                        <Avatar className="w-[180px] h-[180px] text-2xl">
+                                            <AvatarImage src={mail.avt}/>
+                                        </Avatar>
+                                    )}
+                                    <div className="text-xl font-bold tracking-wider">{mail.name}</div>
+                                </div>
+                                <div className="p-6 w-full">
+                                    <div className="text-sm font-semibold mb-5">Contact information</div>
+                                    {mail.email && (
+                                        <div className="flex w-full items-center text-xs gap-3 mb-3">
+                                            <MailIcon className="w-[18px]"/>
+                                            <div className="flex flex-col">
+                                                <div className="font-medium">Email Address</div>
+                                                <div className="text-blue-400 truncate w-full">{mail.email}</div>
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
-                                {mail.phone && (
-                                    <div className="flex items-center text-xs gap-3">
-                                        <Phone className="w-[18px]"/>
-                                        <div className="flex flex-col">
-                                            <div className="font-medium">Email Address</div>
-                                            <div className="text-blue-400">{mail.phone}</div>
+                                    )}
+                                    {mail.phone && (
+                                        <div className="flex items-center text-xs gap-3">
+                                            <Phone className="w-[18px]"/>
+                                            <div className="flex flex-col">
+                                                <div className="font-medium">Email Address</div>
+                                                <div className="text-blue-400">{mail.phone}</div>
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                    )}
-                </div>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     )

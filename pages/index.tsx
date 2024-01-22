@@ -127,7 +127,7 @@ export default function Home() {
                         ]}
                     />
                 </ResizablePanel>
-                <ResizableHandle withHandle/>
+                <ResizableHandle withHandle className='hidden md:flex'/>
                 <ResizablePanel className='h-full' defaultSize={270} minSize={30}>
                     <Tabs defaultValue='all'>
                         <div className="flex items-center px-4 py-2">
@@ -155,11 +155,11 @@ export default function Home() {
                     </Tabs>
                 </ResizablePanel>
                 <ResizableHandle withHandle/>
-                    <ResizablePanel defaultSize={910}>
-                        <MailDisplay
-                            mail={mails.find((item) => item.id === mail.selected) || null}
-                        />
-                    </ResizablePanel>
+                <ResizablePanel defaultSize={910} className='hidden md:block'>
+                    <MailDisplay
+                        mail={mails.find((item) => item.id === mail.selected) || null}
+                    />
+                </ResizablePanel>
             </ResizablePanelGroup>
         </TooltipProvider>
     );
