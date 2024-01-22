@@ -8,6 +8,80 @@ export const mails = [
       date: "2023-10-22T09:00:00",
       read: true,
       labels: ["meeting", "work", "important"],
+      message: [
+        {
+          "id": '6c84fb90-12c4-11e1-840d-7b25c5ee73ds',
+          "senderId": 1,
+          "receiverId": 2,
+          "message": "What do you currently do in life?",
+          "timestamp": "2024-01-22T12:30:00Z",
+          "name": "Jin"
+        },
+        {
+          "id": '110e8400-e29b-11d4-a716-44665544054f',
+          "senderId": 2,
+          "receiverId": 1,
+          "message": "Good question - I am still trying to figure that out!",
+          "timestamp": "2024-01-22T12:35:00Z",
+          "name": "Suga"
+        },
+        {
+          "id": '6c84fb90-12c4-11e1-840d-7b25c5ee73ds',
+          "senderId": 1,
+          "receiverId": 2,
+          "message": "What is your deepest desire?",
+          "timestamp": "2024-01-22T12:30:00Z",
+          "name": "Jin"
+        },
+        {
+          "id": '110e8400-e29b-11d4-a716-44665544054f',
+          "senderId": 2,
+          "receiverId": 1,
+          "message": "A compassionate world",
+          "timestamp": "2024-01-22T12:35:00Z",
+          "name": "Suga"
+        },
+        {
+          "id": '110e8400-e29b-11d4-a716-44665544054f',
+          "senderId": 2,
+          "receiverId": 1,
+          "message": "Understanding other people",
+          "timestamp": "2024-01-22T12:35:00Z",
+          "name": "Suga"
+        },
+        {
+          "id": '6c84fb90-12c4-11e1-840d-7b25c5ee73ds',
+          "senderId": 1,
+          "receiverId": 2,
+          "message": "What, would you say, is your strongest quality?",
+          "timestamp": "2024-01-22T12:30:00Z",
+          "name": "Jin"
+        },
+        {
+          "id": '110e8400-e29b-11d4-a716-44665544054f',
+          "senderId": 2,
+          "receiverId": 1,
+          "message": "I am a bit of a bright spark - Intelligence",
+          "timestamp": "2024-01-22T12:35:00Z",
+          "name": "Suga"
+        },
+        {
+          "id": '110e8400-e29b-11d4-a716-44665544054f',
+          "senderId": 2,
+          "receiverId": 1,
+          "message": "What role do you play in your friendships?",
+          "timestamp": "2024-01-22T12:35:00Z",
+          "name": "Suga"
+        },
+        {
+          "id": '6c84fb90-12c4-11e1-840d-7b25c5ee73ds',
+          "senderId": 1,
+          "receiverId": 2,
+          "message": "I like to make my friends laugh",
+          "timestamp": "2024-01-22T12:30:00Z",
+          "name": "Jin"
+        },
+      ]
     },
     {
       id: "110e8400-e29b-11d4-a716-446655440000",

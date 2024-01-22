@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import addDays from "date-fns/addDays";
 import addHours from "date-fns/addHours";
 import format from "date-fns/format";
@@ -21,11 +23,20 @@ interface MailDisplayProps {
 }
 
 export function MailDisplay({ mail }: MailDisplayProps) {
-    const today = new Date()
+
+    const today = new Date();
+
+    useEffect(() => {
+        const container = document.getElementById('message-container'); // Thay 'yourContainerId' bằng id của container
+
+        if (container) {
+            container.scrollTop = container.scrollHeight;
+        };
+    }, [mail]);
 
     return (
         <div className="flex h-full flex-col">
-            <div className="flex items-center p-2">
+            <div className="flex items-center p-[6px]">
                 <div className="flex items-center gap-2">
                     <Tooltip>
                         <TooltipTrigger asChild>
@@ -160,34 +171,30 @@ export function MailDisplay({ mail }: MailDisplayProps) {
             </div>
             <Separator />
             {mail ? (
-                <div className="flex flex-1 flex-col">
-                    <div className="flex items-start p-4">
-                        <div className="flex items-start gap-4 text-sm">
-                            <Avatar>
-                                <AvatarImage alt={mail.name} />
-                                <AvatarFallback>
-                                    {mail.name
-                                        .split(" ")
-                                        .map((chunk) => chunk[0])
-                                        .join("")}
-                                </AvatarFallback>
-                            </Avatar>
-                            <div className="grid gap-1">
-                                <div className="font-semibold">{mail.name}</div>
-                                <div className="line-clamp-1 text-xs">{mail.subject}</div>
-                                <div className="line-clamp-1 text-xs">
-                                <span className="font-medium">Reply-To:</span> {mail.email}
+                <div className="flex flex-col">
+                    <div id="message-container" className="flex flex-col sticky bottom-0 gap-2 items-start p-4 overflow-y-auto" style={{height: 'calc(100vh - 210px)'}}>
+                        {mail.message?.map((item, index) => {
+                            return (
+                                <div key={`mail-mess-${index}`} className={`flex w-full items-center gap-2 text-sm ${item.senderId === 1 ? 'justify-end' : 'justify-start'}`}>
+                                    {item.senderId === 1 && (
+                                        <div className="p-2 bg-[rgb(43,97,255)] text-white rounded-xl max-w-60">{item.message}</div>
+                                    )}
+                                    <div className=""></div>
+                                    <Avatar>
+                                        <AvatarFallback>
+                                            {item.name
+                                                .split(" ")
+                                                .map((chunk) => chunk[0])
+                                                .join("")}
+                                        </AvatarFallback>
+                                    </Avatar>
+                                    {item.senderId === 2 && (
+                                        <div className="p-2 bg-[rgb(63,64,65)] text-white rounded-xl max-w-60">{item.message}</div>
+                                    )}
                                 </div>
-                            </div>
-                        </div>
-                        {mail.date && (
-                            <div className="ml-auto text-xs text-muted-foreground">
-                                {/* {format(new Date(mail.date), "PPpp")} */}
-                            </div>
-                        )}
+                            )
+                        })}
                     </div>
-                    <Separator />
-                    <div className="flex-1 whitespace-pre-wrap p-4 text-sm"> {mail.text} </div>
                     <Separator className="mt-auto" />
                     <div className="p-4">
                         <form>
