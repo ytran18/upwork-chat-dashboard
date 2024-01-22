@@ -21,6 +21,7 @@ export default function Home() {
 
     const [isCollapsed, setIsCollapsed] = React.useState(false);
     const [isSelectChat, setIsSelectChat] = React.useState(false);
+    const [isShowProfile, setShowProfile] = React.useState(false);
     const [width, setWidth] = React.useState(0);
     const [mail] = useMail();
 
@@ -36,6 +37,7 @@ export default function Home() {
     React.useEffect(() => {
         const handleResize = () => {
             setWidth(window.innerWidth);
+            if (window.innerWidth <= 1024 && window.innerWidth >= 1000) setShowProfile(false);
         };
     
         window.addEventListener('resize', handleResize);
@@ -43,7 +45,16 @@ export default function Home() {
         return () => {
           window.removeEventListener('resize', handleResize);
         };
-    }, []); 
+    }, []);
+
+    const handleShowProfile = (type: string) => {
+        if (type === 'prev') {
+            setShowProfile(prev => !prev);
+        };
+        if (type === 'false') {
+            setShowProfile(false);
+        };
+    };
 
     return (
         <TooltipProvider delayDuration={0}>
@@ -182,7 +193,9 @@ export default function Home() {
                     <MailDisplay
                         mail={mails.find((item) => item.id === mail.selected) || null}
                         width={width}
+                        isShowProfile={isShowProfile}
                         handleSelectChat={handleSelectChat}
+                        handleShowProfile={handleShowProfile}
                     />
                 </ResizablePanel>
             </ResizablePanelGroup>

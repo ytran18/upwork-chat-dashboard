@@ -14,27 +14,27 @@ import { Mail } from "../data";
 interface MailDisplayProps {
     mail: Mail | null,
     width: number,
-    handleSelectChat: () => void
+    isShowProfile: boolean,
+    handleSelectChat: () => void,
+    handleShowProfile: (type: string) => void
 }
 
-export function MailDisplay({ mail, width, handleSelectChat }: MailDisplayProps) {
-
-    const [state, setState] = useState({
-        isShowProfile: true,
-    });
+export function MailDisplay({ mail, width, isShowProfile, handleSelectChat, handleShowProfile }: MailDisplayProps) {
 
     useEffect(() => {
-        const container = document.getElementById('message-container'); // Thay 'yourContainerId' bằng id của container
+        const container = document.getElementById('message-container');
 
         if (container) {
             container.scrollTop = container.scrollHeight;
         };
     }, [mail]);
 
+    const condition = width > 1024 ? (isShowProfile ? 'w-[65%] border-r border-rgb(226,232,241)' : 'w-full') : (isShowProfile ? 'hidden' : 'w-full')
+
     return (
         <div className="flex h-full flex-col">
             <div className="flex w-full">
-                <div className={`flex flex-col ${(state.isShowProfile && width > 1024) ? 'w-[65%] border-r border-rgb(226,232,241)' : 'w-full'}`}>
+                <div className={`flex flex-col ${condition}`}>
                     <div className="flex items-center justify-between md:justify-end p-[6px]">
                         <div className="flex items-center gap-2">
                             <Tooltip>
@@ -47,7 +47,7 @@ export function MailDisplay({ mail, width, handleSelectChat }: MailDisplayProps)
                                 <TooltipContent>Back</TooltipContent>
                             </Tooltip>
                         </div>
-                        <Button onClick={() => setState(prev => ({...prev, isShowProfile: !prev.isShowProfile}))} variant="ghost" size="icon" disabled={!mail}>
+                        <Button onClick={() => handleShowProfile('prev')} variant="ghost" size="icon" disabled={!mail}>
                             <MoreVertical className="h-4 w-4" />
                             <span className="sr-only">More</span>
                         </Button>
@@ -110,11 +110,17 @@ export function MailDisplay({ mail, width, handleSelectChat }: MailDisplayProps)
                         </div>
                     )}
                 </div>
-                {state.isShowProfile && (
-                    <div className="w-[35%] hidden lg:block">
+                {isShowProfile && (
+                    <div className="w-full lg:w-[35%] lg:block">
                         {mail && (
                             <div className="flex flex-col w-full">
-                                <div className="h-[53px] flex items-center px-4 font-semibold tracking-wide border-b border-[rgb(226,232,241)]">Profile</div>
+                                <div className="flex items-center border-b border-[rgb(226,232,241)]">
+                                    <Button className="flex lg:hidden" onClick={() => handleShowProfile('false')} variant="ghost" size="icon" disabled={!mail}>
+                                        <ArrowLeft className="h-4 w-4" />
+                                        <span className="sr-only">Archive</span>
+                                    </Button>
+                                    <h1 className="text-xl font-bold h-[52px] flex items-center px-4">Profile</h1>
+                                </div>
                                 <div className="flex flex-col items-center gap-2 p-2 border-b border-[rgb(226,232,241)]">
                                     {!mail.avt && (
                                         <Avatar className="w-[180px] h-[180px] text-2xl">
