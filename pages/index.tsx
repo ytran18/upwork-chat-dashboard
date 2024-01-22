@@ -19,8 +19,31 @@ import { cn } from '@/lib/utils';
 
 export default function Home() {
 
-    const [isCollapsed, setIsCollapsed] = React.useState(false)
-    const [mail] = useMail()
+    const [isCollapsed, setIsCollapsed] = React.useState(false);
+    const [isSelectChat, setIsSelectChat] = React.useState(false);
+    const [width, setWidth] = React.useState(0);
+    const [mail] = useMail();
+
+    const handleSelectChat = () => {
+        if (width >= 768) return;
+        setIsSelectChat(prev => !prev);
+    };
+
+    React.useEffect(() => {
+        setWidth(window.innerWidth);
+    },[])
+
+    React.useEffect(() => {
+        const handleResize = () => {
+            setWidth(window.innerWidth);
+        };
+    
+        window.addEventListener('resize', handleResize);
+    
+        return () => {
+          window.removeEventListener('resize', handleResize);
+        };
+    }, []); 
 
     return (
         <TooltipProvider delayDuration={0}>
@@ -128,7 +151,7 @@ export default function Home() {
                     />
                 </ResizablePanel>
                 <ResizableHandle withHandle className='hidden md:flex'/>
-                <ResizablePanel className='h-full' defaultSize={270} minSize={30}>
+                <ResizablePanel className={`h-full ${isSelectChat ? 'hidden' : 'block'} md:block`} defaultSize={270} maxSize={50} minSize={30}>
                     <Tabs defaultValue='all'>
                         <div className="flex items-center px-4 py-2">
                             <h1 className="text-xl font-bold">Inbox</h1>
@@ -147,17 +170,19 @@ export default function Home() {
                             </form>
                         </div>
                         <TabsContent value='all' className='m-0'>
-                            <MailList items={mails}/>
+                            <MailList items={mails} handleSelectChat={handleSelectChat}/>
                         </TabsContent>
                         <TabsContent value="unread" className="m-0">
-                            <MailList items={mails.filter((item) => !item.read)} />
+                            <MailList items={mails.filter((item) => !item.read)} handleSelectChat={handleSelectChat} />
                         </TabsContent>
                     </Tabs>
                 </ResizablePanel>
-                <ResizableHandle withHandle/>
-                <ResizablePanel defaultSize={910} className='hidden md:block'>
+                <ResizableHandle withHandle className='hidden md:flex'/>
+                <ResizablePanel defaultSize={910} className={`${isSelectChat ? 'block' : 'hidden'} md:block`}>
                     <MailDisplay
                         mail={mails.find((item) => item.id === mail.selected) || null}
+                        width={width}
+                        handleSelectChat={handleSelectChat}
                     />
                 </ResizablePanel>
             </ResizablePanelGroup>

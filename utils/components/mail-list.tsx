@@ -8,12 +8,22 @@ import { Mail } from "../data";
 import { useMail } from "../use-mail";
 
 interface MailListProps {
-    items: Mail[]
+    items: Mail[],
+    handleSelectChat: () => void;
 }
 
-export function MailList({ items }: MailListProps) {
+export function MailList({ items, handleSelectChat }: MailListProps) {
 
     const [mail, setMail] = useMail();
+
+    const handleClick = (item: {id: string}) => {
+        setMail({
+            ...mail,
+            selected: item.id,
+        });
+        
+        handleSelectChat();
+    }
 
     return (
         <ScrollArea style={{height: 'calc(100vh - 120px)'}}>
@@ -25,12 +35,7 @@ export function MailList({ items }: MailListProps) {
                             "flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent",
                             mail.selected === item.id && "bg-muted"
                         )}
-                        onClick={() =>
-                            setMail({
-                                ...mail,
-                                selected: item.id,
-                            })
-                        }
+                        onClick={() => handleClick(item)}
                     >
                         <div className="flex w-full flex-col gap-1">
                             <div className="flex items-center">

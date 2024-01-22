@@ -1,17 +1,10 @@
 import { useEffect, useState } from "react";
 
-import addDays from "date-fns/addDays";
-import addHours from "date-fns/addHours";
-import format from "date-fns/format";
-import nextSaturday from "date-fns/nextSaturday";
-import { Archive, ArchiveX, Clock, Forward, MoreVertical, Reply, ReplyAll, Trash2, Mail as MailIcon, Phone } from "lucide-react";
+import { MoreVertical, Mail as MailIcon, Phone, ArrowLeft } from "lucide-react";
 
-import { DropdownMenuContent, DropdownMenuItem, DropdownMenu, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
-import { Calendar } from "../ui/calendar";
 import { Label } from "../ui/label";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Separator } from "../ui/separator";
 import { Switch } from "../ui/switch";
 import { Textarea } from "../ui/textarea";
@@ -19,17 +12,16 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Mail } from "../data";
 
 interface MailDisplayProps {
-    mail: Mail | null
+    mail: Mail | null,
+    width: number,
+    handleSelectChat: () => void
 }
 
-export function MailDisplay({ mail }: MailDisplayProps) {
+export function MailDisplay({ mail, width, handleSelectChat }: MailDisplayProps) {
 
     const [state, setState] = useState({
         isShowProfile: true,
-        width: 0,
     });
-
-    const today = new Date();
 
     useEffect(() => {
         const container = document.getElementById('message-container'); // Thay 'yourContainerId' bằng id của container
@@ -39,145 +31,23 @@ export function MailDisplay({ mail }: MailDisplayProps) {
         };
     }, [mail]);
 
-    useEffect(() => {
-        setState(prev => ({...prev, width: window.innerWidth}));
-    },[])
-
-    useEffect(() => {
-        const handleResize = () => {
-            setState(prev => ({...prev, width: window.innerWidth}));
-        };
-    
-        window.addEventListener('resize', handleResize);
-    
-        return () => {
-          window.removeEventListener('resize', handleResize);
-        };
-    }, []); 
-
     return (
         <div className="flex h-full flex-col">
             <div className="flex w-full">
-                <div className={`flex flex-col ${(state.isShowProfile && state.width > 1024) ? 'w-[65%] border-r border-rgb(226,232,241)' : 'w-full'}`}>
-                    <div className="flex items-center p-[6px]">
+                <div className={`flex flex-col ${(state.isShowProfile && width > 1024) ? 'w-[65%] border-r border-rgb(226,232,241)' : 'w-full'}`}>
+                    <div className="flex items-center justify-between md:justify-end p-[6px]">
                         <div className="flex items-center gap-2">
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="icon" disabled={!mail}>
-                                        <Archive className="h-4 w-4" />
+                                    <Button onClick={handleSelectChat} className="flex md:hidden" variant="ghost" size="icon" disabled={!mail}>
+                                        <ArrowLeft className="h-4 w-4" />
                                         <span className="sr-only">Archive</span>
                                     </Button>
                                 </TooltipTrigger>
-                                <TooltipContent>Archive</TooltipContent>
-                            </Tooltip>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="icon" disabled={!mail}>
-                                        <ArchiveX className="h-4 w-4" />
-                                        <span className="sr-only">Move to junk</span>
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>Move to junk</TooltipContent>
-                            </Tooltip>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="icon" disabled={!mail}>
-                                        <Trash2 className="h-4 w-4" />
-                                        <span className="sr-only">Move to trash</span>
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>Move to trash</TooltipContent>
-                            </Tooltip>
-                            <Separator orientation="vertical" className="mx-1 h-6" />
-                            <Tooltip>
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <TooltipTrigger asChild>
-                                            <Button variant="ghost" size="icon" disabled={!mail}>
-                                                <Clock className="h-4 w-4" />
-                                                <span className="sr-only">Snooze</span>
-                                            </Button>
-                                        </TooltipTrigger>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="flex w-[535px] p-0">
-                                        <div className="flex flex-col gap-2 border-r px-2 py-4">
-                                            <div className="px-4 text-sm font-medium">Snooze until</div>
-                                            <div className="grid min-w-[250px] gap-1">
-                                                <Button
-                                                    variant="ghost"
-                                                    className="justify-start font-normal"
-                                                >
-                                                    Later today{" "}
-                                                    <span className="ml-auto text-muted-foreground">
-                                                        {/* {format(addHours(today, 4), "E, h:m b")} */}
-                                                    </span>
-                                                </Button>
-                                                <Button
-                                                    variant="ghost"
-                                                    className="justify-start font-normal"
-                                                >
-                                                    Tomorrow
-                                                    <span className="ml-auto text-muted-foreground">
-                                                        {/* {format(addDays(today, 1), "E, h:m b")} */}
-                                                    </span>
-                                                </Button>
-                                                <Button
-                                                    variant="ghost"
-                                                    className="justify-start font-normal"
-                                                >
-                                                    This weekend
-                                                    <span className="ml-auto text-muted-foreground">
-                                                        {/* {format(nextSaturday(today), "E, h:m b")} */}
-                                                    </span>
-                                                </Button>
-                                                <Button
-                                                    variant="ghost"
-                                                    className="justify-start font-normal"
-                                                >
-                                                    Next week
-                                                    <span className="ml-auto text-muted-foreground">
-                                                        {/* {format(addDays(today, 7), "E, h:m b")} */}
-                                                    </span>
-                                                </Button>
-                                            </div>
-                                        </div>
-                                        <div className="p-2"> <Calendar /> </div>
-                                    </PopoverContent>
-                                </Popover>
-                                <TooltipContent>Snooze</TooltipContent>
+                                <TooltipContent>Back</TooltipContent>
                             </Tooltip>
                         </div>
-                        <div className="ml-auto flex items-center gap-2">
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="icon" disabled={!mail}>
-                                        <Reply className="h-4 w-4" />
-                                        <span className="sr-only">Reply</span>
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>Reply</TooltipContent>
-                            </Tooltip>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="icon" disabled={!mail}>
-                                        <ReplyAll className="h-4 w-4" />
-                                        <span className="sr-only">Reply all</span>
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>Reply all</TooltipContent>
-                            </Tooltip>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="icon" disabled={!mail}>
-                                        <Forward className="h-4 w-4" />
-                                        <span className="sr-only">Forward</span>
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>Forward</TooltipContent>
-                            </Tooltip>
-                        </div>
-                        <Separator orientation="vertical" className="mx-2 h-6 hidden lg:block" />
-                        <Button className="hidden lg:flex" onClick={() => setState(prev => ({...prev, isShowProfile: !prev.isShowProfile}))} variant="ghost" size="icon" disabled={!mail}>
+                        <Button onClick={() => setState(prev => ({...prev, isShowProfile: !prev.isShowProfile}))} variant="ghost" size="icon" disabled={!mail}>
                             <MoreVertical className="h-4 w-4" />
                             <span className="sr-only">More</span>
                         </Button>
