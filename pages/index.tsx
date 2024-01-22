@@ -13,7 +13,7 @@ import { useMail } from '@/utils/use-mail';
 
 import { accounts, mails } from '@/utils/data';
 
-import { AlertCircle, Archive, ArchiveX, File, Inbox, MessagesSquare, PenBox, Search, Send, ShoppingCart, Trash2, Users2 } from 'lucide-react';
+import { AlertCircle, Archive, ArchiveX, File, Inbox, MessagesSquare, Search, Send, ShoppingCart, Trash2, Users2 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
@@ -167,7 +167,7 @@ export default function Home() {
                         <div className="flex items-center px-4 py-2">
                             <h1 className="text-xl font-bold">Inbox</h1>
                             <TabsList className="ml-auto">
-                                <TabsTrigger value="all" className="text-zinc-600 dark:text-zinc-200">All mail</TabsTrigger>
+                                <TabsTrigger value="all" className="text-zinc-600 dark:text-zinc-200">All messages</TabsTrigger>
                                 <TabsTrigger value="unread" className="text-zinc-600 dark:text-zinc-200">Unread</TabsTrigger>
                             </TabsList>
                         </div>
