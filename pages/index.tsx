@@ -32,7 +32,7 @@ export default function Home() {
                 className="!h-screen items-stretch"
             >
                 <ResizablePanel
-                    defaultSize={265}
+                    defaultSize={180}
                     collapsedSize={4}
                     collapsible={true}
                     minSize={15}
@@ -128,7 +128,7 @@ export default function Home() {
                     />
                 </ResizablePanel>
                 <ResizableHandle withHandle/>
-                <ResizablePanel className='h-full' defaultSize={440} minSize={30}>
+                <ResizablePanel className='h-full' defaultSize={270} minSize={30}>
                     <Tabs defaultValue='all'>
                         <div className="flex items-center px-4 py-2">
                             <h1 className="text-xl font-bold">Inbox</h1>
@@ -155,7 +155,7 @@ export default function Home() {
                     </Tabs>
                 </ResizablePanel>
                 <ResizableHandle withHandle/>
-                    <ResizablePanel defaultSize={655}>
+                    <ResizablePanel defaultSize={910}>
                         <MailDisplay
                             mail={mails.find((item) => item.id === mail.selected) || null}
                         />

@@ -7,6 +7,8 @@ export const mails = [
       text: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success.\n\nPlease come prepared with any questions or insights you may have. Looking forward to our meeting!\n\nBest regards, William",
       date: "2023-10-22T09:00:00",
       read: true,
+      phone: '01632 960869',
+      avt: 'https://images.pexels.com/photos/15842115/pexels-photo-15842115/free-photo-of-photo-of-straw-huts-in-africa.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       labels: ["meeting", "work", "important"],
       message: [
         {
@@ -23,7 +25,7 @@ export const mails = [
           "receiverId": 1,
           "message": "Good question - I am still trying to figure that out!",
           "timestamp": "2024-01-22T12:35:00Z",
-          "name": "Suga"
+          "name": "William Smith"
         },
         {
           "id": '6c84fb90-12c4-11e1-840d-7b25c5ee73ds',
@@ -39,7 +41,7 @@ export const mails = [
           "receiverId": 1,
           "message": "A compassionate world",
           "timestamp": "2024-01-22T12:35:00Z",
-          "name": "Suga"
+          "name": "William Smith"
         },
         {
           "id": '110e8400-e29b-11d4-a716-44665544054f',
@@ -47,7 +49,7 @@ export const mails = [
           "receiverId": 1,
           "message": "Understanding other people",
           "timestamp": "2024-01-22T12:35:00Z",
-          "name": "Suga"
+          "name": "William Smith"
         },
         {
           "id": '6c84fb90-12c4-11e1-840d-7b25c5ee73ds',
@@ -63,7 +65,7 @@ export const mails = [
           "receiverId": 1,
           "message": "I am a bit of a bright spark - Intelligence",
           "timestamp": "2024-01-22T12:35:00Z",
-          "name": "Suga"
+          "name": "William Smith"
         },
         {
           "id": '110e8400-e29b-11d4-a716-44665544054f',
@@ -71,7 +73,7 @@ export const mails = [
           "receiverId": 1,
           "message": "What role do you play in your friendships?",
           "timestamp": "2024-01-22T12:35:00Z",
-          "name": "Suga"
+          "name": "William Smith"
         },
         {
           "id": '6c84fb90-12c4-11e1-840d-7b25c5ee73ds',
