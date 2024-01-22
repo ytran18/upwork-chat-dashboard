@@ -35,17 +35,18 @@ export function MailDisplay({ mail, width, isShowProfile, handleSelectChat, hand
         <div className="flex h-full flex-col">
             <div className="flex w-full">
                 <div className={`flex flex-col ${condition}`}>
-                    <div className="flex items-center justify-between md:justify-end p-[6px]">
+                    <div className="flex items-center justify-between px-4 py-[6px]">
                         <div className="flex items-center gap-2">
                             <Tooltip>
                                 <TooltipTrigger asChild>
                                     <Button onClick={handleSelectChat} className="flex md:hidden" variant="ghost" size="icon" disabled={!mail}>
                                         <ArrowLeft className="h-4 w-4" />
-                                        <span className="sr-only">Archive</span>
+                                        <span className="sr-only">back</span>
                                     </Button>
                                 </TooltipTrigger>
                                 <TooltipContent>Back</TooltipContent>
                             </Tooltip>
+                            <div>{mail?.name}</div>
                         </div>
                         <Button onClick={() => handleShowProfile('prev')} variant="ghost" size="icon" disabled={!mail}>
                             <MoreVertical className="h-4 w-4" />
