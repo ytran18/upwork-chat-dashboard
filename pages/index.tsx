@@ -29,7 +29,7 @@ export default function Home() {
                 onLayout={(sizes: number[]) => {
                     document.cookie = `react-resizable-panels:layout=${JSON.stringify(sizes)}`
                 }}
-                className="h-screen max-h-[800px] items-stretch"
+                className="!h-screen items-stretch"
             >
                 <ResizablePanel
                     defaultSize={265}
@@ -43,7 +43,7 @@ export default function Home() {
                     onExpand={() => {
                         setIsCollapsed(false)
                     }}
-                    className={cn(isCollapsed && "min-w-[50px] transition-all duration-300 ease-in-out")}
+                    className={cn(isCollapsed && "min-w-[50px] h-full transition-all duration-300 ease-in-out")}
                 >
                     <div className={cn("flex h-[52px] w-full items-center justify-center", isCollapsed ? 'h-[52px]': 'px-2')}>
                         <AccountSwitcher isCollapsed={isCollapsed} accounts={accounts} />
@@ -128,7 +128,7 @@ export default function Home() {
                     />
                 </ResizablePanel>
                 <ResizableHandle withHandle/>
-                <ResizablePanel defaultSize={440} minSize={30}>
+                <ResizablePanel className='h-full' defaultSize={440} minSize={30}>
                     <Tabs defaultValue='all'>
                         <div className="flex items-center px-4 py-2">
                             <h1 className="text-xl font-bold">Inbox</h1>

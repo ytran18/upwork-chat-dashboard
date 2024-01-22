@@ -13,10 +13,10 @@ interface MailListProps {
 
 export function MailList({ items }: MailListProps) {
 
-    const [mail, setMail] = useMail()
+    const [mail, setMail] = useMail();
 
     return (
-        <ScrollArea className="h-screen">
+        <ScrollArea style={{height: 'calc(100vh - 120px)'}}>
             <div className="flex flex-col gap-2 p-4 pt-0">
                 {items.map((item) => (
                     <button
